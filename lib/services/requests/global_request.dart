@@ -4,6 +4,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:structure_demo/app/configurations.dart';
+import 'package:structure_demo/generated/l10n.dart';
 import 'package:structure_demo/models/shared/general_response.dart';
 import 'package:structure_demo/services/requests/request_all.dart';
 import 'package:structure_demo/services/requests/request_exception.dart';
@@ -35,7 +36,7 @@ class GlobalRequest {
         statusCode: response.statusCode,
       );
     } catch (e) {
-      return GeneralResponse.error(e.toString());
+      return GeneralResponse.error(S.current.somethingWentWrong);
     }
   }
 
