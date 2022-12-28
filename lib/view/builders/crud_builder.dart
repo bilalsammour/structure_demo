@@ -38,7 +38,7 @@ class _CrudBuilderState<V extends CrudViewModel<T>, T extends MapModel>
         } on ViewModelException catch (e) {
           await DialogsManager.showOkDialog(
             context: context,
-            message: e.toString(),
+            message: e.error ?? '',
           );
         } catch (_) {
           await DialogsManager.showOkDialog(

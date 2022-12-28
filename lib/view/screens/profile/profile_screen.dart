@@ -20,14 +20,18 @@ class ProfileScreen extends StatelessWidget {
         child: CrudBuilder<ProfileViewModel, UserModel>(
           builder: (value) => ProfileContent(
             item: value ?? const UserModel(),
-            onViewModelError: (error) => DialogsManager.showOkDialog(
-              context: context,
-              message: error,
-            ),
-            onUnknownError: () => DialogsManager.showOkDialog(
-              context: context,
-              message: S.current.somethingWentWrong,
-            ),
+            onViewModelError: (error) async {
+              await DialogsManager.showOkDialog(
+                context: context,
+                message: error,
+              );
+            },
+            onUnknownError: () async {
+              await DialogsManager.showOkDialog(
+                context: context,
+                message: S.current.somethingWentWrong,
+              );
+            },
           ),
         ),
       );

@@ -41,7 +41,7 @@ class _CrudItemsBuilderState<V extends CrudItemsViewModel<T>,
         } on ViewModelException catch (e) {
           await DialogsManager.showOkDialog(
             context: context,
-            message: e.toString(),
+            message: e.error ?? '',
           );
         } catch (_) {
           await DialogsManager.showOkDialog(
