@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:structure_demo/business/shared/crud/crud_view_model.dart';
 import 'package:structure_demo/business/shared/view_model_exception.dart';
+import 'package:structure_demo/generated/l10n.dart';
 import 'package:structure_demo/models/map_model.dart';
 import 'package:structure_demo/view/shared_widgets/app_consumer.dart';
 import 'package:structure_demo/view/shared_widgets/center_progress.dart';
@@ -36,15 +37,20 @@ class _CrudBuilderState<V extends CrudViewModel<T>, T extends MapModel>
 
     Future.delayed(
       Duration.zero,
-      () {
+      () async {
         try {
           context.read<V>().retrieve().then((_) => {});
         } on ViewModelException catch (e) {
-          widget.onError?.call(e);
-        } on Exception catch (e) {
-          DialogsManager.showOkDialog(
+          await DialogsManager.showOkDialog(
             context: context,
             message: e.toString(),
+          );
+
+          widget.onError?.call(e);
+        } catch (_) {
+          await DialogsManager.showOkDialog(
+            context: context,
+            message: S.current.somethingWentWrong,
           );
         }
       },
