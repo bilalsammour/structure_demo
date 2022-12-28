@@ -69,7 +69,7 @@ class CrudRepository<T extends MapModel> extends BaseRepository {
             item.toMap(),
           ))
         .sendRequest(
-      requestType: RequestType.patch,
+      requestType: RequestType.put,
       api: api,
     );
 
