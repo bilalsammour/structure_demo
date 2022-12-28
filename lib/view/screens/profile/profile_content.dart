@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:structure_demo/business/profile/profile_view_model.dart';
+import 'package:structure_demo/business/shared/view_model_exception.dart';
 import 'package:structure_demo/generated/l10n.dart';
 import 'package:structure_demo/models/user/user_model.dart';
 import 'package:structure_demo/utils/form_validator.dart';
@@ -8,10 +9,14 @@ import 'package:provider/provider.dart';
 
 class ProfileContent extends StatefulWidget {
   final UserModel item;
+  final Function(String error)? onViewModelError;
+  final Function()? onUnknownError;
 
   const ProfileContent({
     super.key,
     required this.item,
+    this.onViewModelError,
+    this.onUnknownError,
   });
 
   @override
@@ -103,6 +108,20 @@ class _ProfileContentState extends State<ProfileContent> {
       );
 
   Future<void> _save() async {
+    try {
+      await _trySave();
+    } on ViewModelException catch (e) {
+      widget.onViewModelError?.call(e.error ?? '');
+    } catch (_) {
+      widget.onUnknownError?.call();
+    }
+
+    try {
+      await _trySave();
+    } catch (_) {}
+  }
+
+  Future<void> _trySave() async {
     if (!_checkForm()) {
       return;
     }
@@ -120,12 +139,16 @@ class _ProfileContentState extends State<ProfileContent> {
       email: _emailNumberController.text.trim(),
     );
 
-    await viewModel.update(
-      id: model.id,
-      item: newModel,
-      updateLocally: true,
-      loading: true,
-    );
+    try {
+      await viewModel.update(
+        id: model.id,
+        item: newModel,
+        updateLocally: true,
+        loading: true,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   bool _checkForm() {

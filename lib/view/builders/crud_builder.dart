@@ -11,10 +11,7 @@ import 'package:provider/single_child_widget.dart';
 
 class CrudBuilder<V extends CrudViewModel<T>, T extends MapModel>
     extends SingleChildStatefulWidget {
-  final Widget Function(
-    BuildContext context,
-    T item,
-  ) builder;
+  final Widget Function(T? item) builder;
   final Widget busyWidget;
 
   const CrudBuilder({
@@ -55,9 +52,7 @@ class _CrudBuilderState<V extends CrudViewModel<T>, T extends MapModel>
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => AppConsumer<V>(
-        builder: (_, value) => value.item == null
-            ? widget.busyWidget
-            : widget.builder(context, value.item!),
+        builder: () => widget.builder(context.read<V>().item),
         busyWidget: widget.busyWidget,
       );
 }

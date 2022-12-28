@@ -33,6 +33,8 @@ abstract class CrudViewModel<T extends MapModel> extends BaseViewModel {
     }
 
     try {
+      item = null;
+
       item = await _repository.retrieve();
 
       notifyListeners();

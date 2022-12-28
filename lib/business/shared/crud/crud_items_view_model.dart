@@ -37,6 +37,10 @@ abstract class CrudItemsViewModel<T extends MapModel> extends BaseViewModel {
     }
 
     try {
+      if (clear) {
+        items.clear();
+      }
+
       final results = await _repository.retrieve(
         pageSize: pageSize,
         page: _getPage(),
@@ -45,9 +49,6 @@ abstract class CrudItemsViewModel<T extends MapModel> extends BaseViewModel {
       );
 
       if (results.isNotEmpty) {
-        if (clear) {
-          items.clear();
-        }
         items.addAll(results);
         notifyListeners();
       }

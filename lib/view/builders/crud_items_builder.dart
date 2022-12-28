@@ -55,7 +55,7 @@ class _CrudItemsBuilderState<V extends CrudItemsViewModel<T>,
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => AppConsumer<V>(
-        builder: (_, value) => widget.builder(context, value.items),
+        builder: () => widget.builder(context, context.read<V>().items),
         busyWidget: widget.busyWidget,
       );
 }

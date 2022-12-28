@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/single_child_widget.dart';
 
 class AppConsumer<T extends BaseViewModel> extends SingleChildStatelessWidget {
-  final Widget Function(
-    BuildContext context,
-    T value,
-  ) builder;
+  final Widget Function() builder;
   final Widget busyWidget;
 
   const AppConsumer({
@@ -20,10 +17,5 @@ class AppConsumer<T extends BaseViewModel> extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) =>
-      context.watch<T>().busy
-          ? busyWidget
-          : builder(
-              context,
-              context.watch<T>(),
-            );
+      context.watch<T>().busy ? busyWidget : builder();
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:structure_demo/business/notes/notes_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:structure_demo/business/shared/view_model_exception.dart';
+import 'package:structure_demo/generated/l10n.dart';
 import 'package:structure_demo/view/resources/app_resources.dart';
 import 'package:structure_demo/view/screens/dashboard/notes_items.dart';
 import 'package:structure_demo/view/shared_widgets/app_consumer.dart';
+import 'package:structure_demo/view/utils/dialogs_manager.dart';
 
 class DashboardSection extends StatefulWidget {
   const DashboardSection({super.key});
@@ -19,17 +22,31 @@ class _DashboardSectionState extends State<DashboardSection> {
 
     Future.delayed(
       Duration.zero,
-      () => context.read<NotesViewModel>().retrieve(),
+      () async {
+        try {
+          await context.read<NotesViewModel>().retrieve().then((_) => {});
+        } on ViewModelException catch (e) {
+          await DialogsManager.showOkDialog(
+            context: context,
+            message: e.toString(),
+          );
+        } catch (_) {
+          await DialogsManager.showOkDialog(
+            context: context,
+            message: S.current.somethingWentWrong,
+          );
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) => AppConsumer<NotesViewModel>(
-        builder: (_, value) => Padding(
+        builder: () => Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppDimensions.mainSpace,
           ),
-          child: NotesItems(items: value.items),
+          child: NotesItems(items: context.read<NotesViewModel>().items),
         ),
       );
 }
