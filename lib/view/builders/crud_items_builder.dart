@@ -16,13 +16,11 @@ class CrudItemsBuilder<V extends CrudItemsViewModel<T>, T extends MapModel>
     List<T> value,
   ) builder;
   final Widget busyWidget;
-  final Function(ViewModelException e)? onError;
 
   const CrudItemsBuilder({
     Key? key,
     required this.builder,
     this.busyWidget = const CenterProgress(),
-    this.onError,
   }) : super(key: key);
 
   @override
@@ -39,9 +37,12 @@ class _CrudItemsBuilderState<V extends CrudItemsViewModel<T>,
       Duration.zero,
       () async {
         try {
-          context.read<V>().retrieve().then((_) => {});
+          await context.read<V>().retrieve().then((_) => {});
         } on ViewModelException catch (e) {
-          widget.onError?.call(e);
+          await DialogsManager.showOkDialog(
+            context: context,
+            message: e.toString(),
+          );
         } catch (_) {
           await DialogsManager.showOkDialog(
             context: context,

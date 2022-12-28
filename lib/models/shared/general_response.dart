@@ -2,7 +2,7 @@ import 'package:structure_demo/models/map_model.dart';
 import 'package:structure_demo/models/shared/item_parent_model.dart';
 
 class GeneralResponse extends MapModel {
-  static const String errorKey = 'detail';
+  static const String errorKey = 'error';
 
   final String? error;
   final int statusCode;

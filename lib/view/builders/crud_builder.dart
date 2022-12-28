@@ -16,13 +16,11 @@ class CrudBuilder<V extends CrudViewModel<T>, T extends MapModel>
     T item,
   ) builder;
   final Widget busyWidget;
-  final Function(ViewModelException e)? onError;
 
   const CrudBuilder({
     Key? key,
     required this.builder,
     this.busyWidget = const CenterProgress(),
-    this.onError,
   }) : super(key: key);
 
   @override
@@ -39,14 +37,12 @@ class _CrudBuilderState<V extends CrudViewModel<T>, T extends MapModel>
       Duration.zero,
       () async {
         try {
-          context.read<V>().retrieve().then((_) => {});
+          await context.read<V>().retrieve().then((_) => {});
         } on ViewModelException catch (e) {
           await DialogsManager.showOkDialog(
             context: context,
             message: e.toString(),
           );
-
-          widget.onError?.call(e);
         } catch (_) {
           await DialogsManager.showOkDialog(
             context: context,
