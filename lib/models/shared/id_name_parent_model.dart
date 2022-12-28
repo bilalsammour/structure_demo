@@ -24,25 +24,23 @@ class IdNameParentModel extends MapModel {
     String? next,
     String? previous,
     List<IdNameModel>? results,
-  }) {
-    return IdNameParentModel(
-      count: count ?? this.count,
-      next: next ?? this.next,
-      previous: previous ?? this.previous,
-      results: results ?? this.results,
-    );
-  }
+  }) =>
+      IdNameParentModel(
+        count: count ?? this.count,
+        next: next ?? this.next,
+        previous: previous ?? this.previous,
+        results: results ?? this.results,
+      );
 
-  factory IdNameParentModel.fromMap(Map<String, dynamic> map) {
-    return IdNameParentModel(
-      count: (map[countKey] ?? '') as String,
-      next: (map[nextKey] ?? '') as String,
-      previous: (map[previousKey] ?? '') as String,
-      results: List<IdNameModel>.from(
-        (map[resultsKey] as List<dynamic>).map<IdNameModel>(
-          (x) => IdNameModel.fromMap(x as Map<String, dynamic>),
+  factory IdNameParentModel.fromMap(Map<String, dynamic> map) =>
+      IdNameParentModel(
+        count: (map[countKey] ?? '') as String,
+        next: (map[nextKey] ?? '') as String,
+        previous: (map[previousKey] ?? '') as String,
+        results: List<IdNameModel>.from(
+          (map[resultsKey] as List<dynamic>).map<IdNameModel>(
+            (x) => IdNameModel.fromMap(x as Map<String, dynamic>),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

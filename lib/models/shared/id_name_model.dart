@@ -15,27 +15,22 @@ class IdNameModel extends MapModel {
   IdNameModel copyWith({
     String? id,
     String? name,
-  }) {
-    return IdNameModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-    );
-  }
+  }) =>
+      IdNameModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+      );
 
   @override
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      idKey: id,
-      nameKey: name,
-    };
-  }
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        idKey: id,
+        nameKey: name,
+      };
 
-  factory IdNameModel.fromMap(Map<String, dynamic> map) {
-    return IdNameModel(
-      id: (map[idKey] ?? '') as String,
-      name: (map[nameKey] ?? '') as String,
-    );
-  }
+  factory IdNameModel.fromMap(Map<String, dynamic> map) => IdNameModel(
+        id: (map[idKey] ?? '') as String,
+        name: (map[nameKey] ?? '') as String,
+      );
 
   @override
   bool operator ==(covariant IdNameModel other) {
