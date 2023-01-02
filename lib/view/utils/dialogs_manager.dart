@@ -6,15 +6,16 @@ class DialogsManager {
     required BuildContext context,
     required String message,
     String? title,
-  }) =>
-      showDialog<void>(
+  }) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) => _buildTitleMessageAlertDialog(
         context: context,
-        builder: (context) => _buildTitleMessageAlertDialog(
-          context: context,
-          message: message,
-          title: title ?? S.current.appName,
-        ),
-      );
+        message: message,
+        title: title ?? S.current.appName,
+      ),
+    );
+  }
 
   static AlertDialog _buildTitleMessageAlertDialog({
     required BuildContext context,

@@ -5,9 +5,9 @@ import 'package:structure_demo/generated/l10n.dart';
 import 'package:structure_demo/models/map_model.dart';
 import 'package:structure_demo/view/shared_widgets/app_consumer.dart';
 import 'package:structure_demo/view/shared_widgets/center_progress.dart';
-import 'package:structure_demo/view/utils/dialogs_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:structure_demo/view/utils/error_manager.dart';
 
 class CrudItemsBuilder<V extends CrudItemsViewModel<T>, T extends MapModel>
     extends SingleChildStatefulWidget {
@@ -39,14 +39,14 @@ class _CrudItemsBuilderState<V extends CrudItemsViewModel<T>,
         try {
           await context.read<V>().retrieve().then((_) => {});
         } on ViewModelException catch (e) {
-          await DialogsManager.showOkDialog(
+          await ErrorManager.show(
             context: context,
-            message: e.error ?? '',
+            error: e.error ?? '',
           );
         } catch (_) {
-          await DialogsManager.showOkDialog(
+          await ErrorManager.show(
             context: context,
-            message: S.current.somethingWentWrong,
+            error: S.current.somethingWentWrong,
           );
         }
       },

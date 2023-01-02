@@ -5,7 +5,7 @@ import 'package:structure_demo/models/user/user_model.dart';
 import 'package:structure_demo/view/builders/crud_builder.dart';
 import 'package:structure_demo/view/screens/profile/profile_content.dart';
 import 'package:structure_demo/view/shared_widgets/templates/main_template.dart';
-import 'package:structure_demo/view/utils/dialogs_manager.dart';
+import 'package:structure_demo/view/utils/error_manager.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -20,16 +20,10 @@ class ProfileScreen extends StatelessWidget {
         child: CrudBuilder<ProfileViewModel, UserModel>(
           builder: (value) => ProfileContent(
             item: value ?? const UserModel(),
-            onViewModelError: (error) async {
-              await DialogsManager.showOkDialog(
+            onError: (error) async {
+              await ErrorManager.show(
                 context: context,
-                message: error,
-              );
-            },
-            onUnknownError: () async {
-              await DialogsManager.showOkDialog(
-                context: context,
-                message: S.current.somethingWentWrong,
+                error: error,
               );
             },
           ),

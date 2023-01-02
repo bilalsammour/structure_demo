@@ -6,7 +6,7 @@ import 'package:structure_demo/generated/l10n.dart';
 import 'package:structure_demo/view/resources/app_resources.dart';
 import 'package:structure_demo/view/screens/dashboard/notes_items.dart';
 import 'package:structure_demo/view/shared_widgets/app_consumer.dart';
-import 'package:structure_demo/view/utils/dialogs_manager.dart';
+import 'package:structure_demo/view/utils/error_manager.dart';
 
 class DashboardSection extends StatefulWidget {
   const DashboardSection({super.key});
@@ -26,14 +26,14 @@ class _DashboardSectionState extends State<DashboardSection> {
         try {
           await context.read<NotesViewModel>().retrieve().then((_) => {});
         } on ViewModelException catch (e) {
-          await DialogsManager.showOkDialog(
+          await ErrorManager.show(
             context: context,
-            message: e.error ?? '',
+            error: e.error ?? '',
           );
         } catch (_) {
-          await DialogsManager.showOkDialog(
+          await ErrorManager.show(
             context: context,
-            message: S.current.somethingWentWrong,
+            error: S.current.somethingWentWrong,
           );
         }
       },

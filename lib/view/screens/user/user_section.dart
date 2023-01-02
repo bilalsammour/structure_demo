@@ -5,7 +5,7 @@ import 'package:structure_demo/utils/navigation_manager.dart';
 import 'package:structure_demo/view/resources/app_resources.dart';
 import 'package:structure_demo/view/screens/profile/profile_screen.dart';
 import 'package:structure_demo/view/screens/user/user_section_item.dart';
-import 'package:structure_demo/view/utils/dialogs_manager.dart';
+import 'package:structure_demo/view/utils/error_manager.dart';
 
 class UserSection extends StatelessWidget {
   const UserSection({Key? key}) : super(key: key);
@@ -37,9 +37,9 @@ class UserSection extends StatelessWidget {
     try {
       _anything();
     } on ViewModelException catch (e) {
-      DialogsManager.showOkDialog(
+      ErrorManager.show(
         context: context,
-        message: e.error ?? '',
+        error: e.error ?? '',
       );
     }
   }

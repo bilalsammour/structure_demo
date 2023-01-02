@@ -9,14 +9,12 @@ import 'package:provider/provider.dart';
 
 class ProfileContent extends StatefulWidget {
   final UserModel item;
-  final Function(String error)? onViewModelError;
-  final Function()? onUnknownError;
+  final Function(String error)? onError;
 
   const ProfileContent({
     super.key,
     required this.item,
-    this.onViewModelError,
-    this.onUnknownError,
+    this.onError,
   });
 
   @override
@@ -111,9 +109,9 @@ class _ProfileContentState extends State<ProfileContent> {
     try {
       await _trySave();
     } on ViewModelException catch (e) {
-      widget.onViewModelError?.call(e.error ?? '');
+      widget.onError?.call(e.error ?? '');
     } catch (_) {
-      widget.onUnknownError?.call();
+      widget.onError?.call(S.current.somethingWentWrong);
     }
 
     try {
